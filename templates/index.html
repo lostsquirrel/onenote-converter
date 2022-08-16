@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Index</title>
+</head>
+
+<body>
+  <h1>Inport epub to Microsoft OneNote</h1>
+  <h2>Welcome {{ user.get("name") }}!</h2>
+  <ul>
+    {% if config.get("B2C_PROFILE_AUTHORITY") %}
+    <li><a href='{{_build_auth_code_flow(authority=config["B2C_PROFILE_AUTHORITY"])["auth_uri"]}}'>Edit Profile</a></li>
+    {% endif %}
+
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+  <form action="/uploader" method="POST" enctype="multipart/form-data">
+    <label for="file">Upload a epub file: </label>
+    <input id="file" type="file" name="file" />
+    <input type="submit" value="Upload" >
+  </form>
+  <hr>
+  <footer style="text-align: right">Powered by MSAL Python {{ version }}</footer>
+</body>
+
+</html>
