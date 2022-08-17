@@ -2,6 +2,7 @@ import hashlib
 import os
 import zipfile
 from werkzeug.middleware.proxy_fix import ProxyFix
+from pathlib import Path
 import tempfile
 import requests
 import logging
@@ -114,7 +115,9 @@ def uploader():
 
         container_file_path = os.path.join(temp_dir, container_file)
         opf_file = _get_opf_file(container_file_path)
+        
         opf_file_path = os.path.join(temp_dir, opf_file)
+        parent_path = str(Path(opf_file_path).parent)
         manifests, page_list = _load_opf_file(opf_file_path)
         code, _book = create_notebook(token, zip_file_name)
         # book = NoteBook(**_book)
@@ -128,14 +131,14 @@ def uploader():
         logger.info(f"create section {_section['displayName']}")
         secton_url = _section["pagesUrl"]
         css_files = _get_css_files(manifests.values())
-        css = _load_css_content(temp_dir, css_files)
+        css = _load_css_content(parent_path, css_files)
         for page_ref in page_list[:]:
             page_file = manifests[page_ref].href
-            c = _load_page_content(temp_dir, page_file)
+            c = _load_page_content(parent_path, page_file)
             c = _remove_css_link(c)
             c = css_inline(c, css)
             data = dict()
-            c, images = _img_inline(temp_dir, c)
+            c, images = _img_inline(parent_path, c)
             data.update(images)
             data["Presentation"] = ("Presentation", c, 'text/html')
             logger.info(f"create page with {secton_url}")
