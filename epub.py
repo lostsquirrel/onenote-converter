@@ -16,7 +16,7 @@ mimetype_epub = "application/epub+zip"
 
 
 def get_opf_path(container: str) -> str:
-    root = etree.XML(container)
+    root = etree.XML(container.encode('utf-8'))
     return root[0][0].get("full-path")
 
 

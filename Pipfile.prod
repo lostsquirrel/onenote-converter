@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+werkzeug = ">=2"
+flask = ">=2"
+pynliner = "*"
+lxml = "*"
+requests = "==2.*"
+msal = "~=1.7"
+flask-session = ">=0.3.2,<0.5"
+python-dotenv = "*"
+
+[dev-packages]
+pycodestyle = "*"
+autopep8 = "*"
+
+[requires]
+python_version = "3.9"
