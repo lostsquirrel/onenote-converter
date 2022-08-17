@@ -15,8 +15,10 @@ from epub import (_get_css_files, _get_opf_file, _img_inline,
                   load_opf, mimetype_file)
 from onenote import (NoteBook, Section, create_notebook, create_section,
                      create_page, get_page_content)
+from utils import load_env_file
 
 app = Flask(__name__)
+load_env_file()
 app.config.from_object(app_config)
 Session(app)
 logging.basicConfig(level=logging.INFO)

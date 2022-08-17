@@ -11,6 +11,7 @@ lxml = "*"
 requests = "==2.*"
 msal = "~=1.7"
 flask-session = ">=0.3.2,<0.5"
+python-dotenv = "*"
 
 [dev-packages]
 pycodestyle = "*"

@@ -1,3 +1,4 @@
+from curses.ascii import isupper
 import unittest
 import app_config
 
@@ -10,4 +11,5 @@ class AppConfigTest(unittest.TestCase):
 
     def test_prop_var(self):
         for x in vars(app_config):
-            print(x)
+            if x.isupper():
+                print(x)

@@ -1,4 +1,7 @@
 import os
+import pathlib
+from dotenv import load_dotenv
+
 
 # Application (client) ID of app registration
 CLIENT_ID = ""
