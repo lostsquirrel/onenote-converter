@@ -1,21 +1,23 @@
 import hashlib
-import os
-import zipfile
-from werkzeug.middleware.proxy_fix import ProxyFix
-from pathlib import Path
-import tempfile
-import requests
 import logging
-from flask import Flask, render_template, session, request, redirect, url_for
-from flask_session import Session
+import os
+import tempfile
+import zipfile
+from pathlib import Path
+
 import msal
+import requests
+from flask import Flask, redirect, render_template, request, session, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
+
 import app_config
 from epub import (_get_css_files, _get_opf_file, _img_inline,
                   _load_css_content, _load_opf_file, _load_page_content,
                   _remove_css_link, container_file, css_inline, get_opf_path,
                   load_opf, mimetype_file)
-from onenote import (NoteBook, Section, create_notebook, create_section,
-                     create_page, get_page_content)
+from flask_session import Session
+from onenote import (NoteBook, Section, create_notebook, create_page,
+                     create_section, get_page_content)
 from utils import load_env_file
 
 app = Flask(__name__)

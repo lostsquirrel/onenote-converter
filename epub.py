@@ -1,13 +1,12 @@
-import os
-from typing import List
 import base64
-from dataclasses import dataclass
+import os
 import re
-from xml.dom.expatbuilder import parseFragmentString
-from pynliner import Pynliner
-import zipfile
-from lxml import etree
+from dataclasses import dataclass
+from typing import List
 
+import lxml.html
+import lxml.etree
+from pynliner import Pynliner
 
 container_file = "META-INF/container.xml"
 mimetype_file = 'mimetype'
@@ -16,7 +15,7 @@ mimetype_epub = "application/epub+zip"
 
 
 def get_opf_path(container: str) -> str:
-    root = etree.XML(container.encode('utf-8'))
+    root = lxml.html.fromstring(container)
     return root[0][0].get("full-path")
 
 
@@ -38,7 +37,7 @@ def _is_epub(mimetype: str) -> bool:
 
 
 def load_opf(opf: str):
-    root = etree.XML(opf)
+    root = lxml.html.fromstring(opf)
     manifest = root[1]
     manifests = dict()
     for item in manifest:
@@ -61,7 +60,7 @@ def _get_opf_file(container_file_path):
 
 
 def _load_opf_file(opf_file_path: str):
-    with open(opf_file_path, 'rb') as opf_file:
+    with open(opf_file_path) as opf_file:
         opf = opf_file.read()
         return load_opf(opf)
 
@@ -125,7 +124,7 @@ def _image_inline(temp_dir, page_content: str) -> str:
 
 
 def _img_inline(temp_dir, page_content: str):
-    root = etree.XML(page_content.encode('utf-8'))
+    root = lxml.html.fromstring(page_content)
     images_svg = root.xpath("//*[local-name() = 'image']")
     files = dict()
     for i in images_svg:
@@ -160,7 +159,7 @@ def _img_inline(temp_dir, page_content: str):
             files[image_block_name] = (image_block_name,
                                        image_file.read(),
                                        f'image/{image_suffix}')
-    return etree.tostring(root, encoding='utf-8'), files
+    return lxml.etree.tostring(root, encoding='utf-8'), files
 
 
 if __name__ == '__main__':
